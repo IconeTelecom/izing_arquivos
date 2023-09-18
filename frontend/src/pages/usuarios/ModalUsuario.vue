@@ -86,6 +86,7 @@
 <script>
 import { required, email, minLength, maxLength } from 'vuelidate/lib/validators'
 import { CriarUsuario, UpdateUsuarios } from 'src/service/user'
+import { Notify } from 'quasar'
 export default {
   name: 'ModalUsuario',
   props: {
@@ -219,7 +220,16 @@ export default {
         }
         this.$emit('update:modalUsuario', false)
       } catch (error) {
-        console.error(error)
+        console.error(error, error.data.error === 'ERR_USER_LIMIT_USER_CREATION')
+        if (error.data.error === 'ERR_USER_LIMIT_USER_CREATION') {
+          Notify.create({
+            type: 'negative',
+            message: 'Limite de usuario atingido.',
+            caption: 'ERR_USER_LIMIT_USER_CREATION',
+            position: 'top',
+            progress: true
+          })
+        }
       }
     }
   }

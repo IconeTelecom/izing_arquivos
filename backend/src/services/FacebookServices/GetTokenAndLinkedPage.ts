@@ -13,7 +13,7 @@ interface Request {
   tenantId: number | string;
 }
 
-const api_version = "v12.0";
+const api_version = "v16.0";
 const baseUrl = `https://graph.facebook.com/${api_version}`;
 const app_id = process.env.FACEBOOK_APP_ID;
 const app_secret = process.env.FACEBOOK_APP_SECRET_KEY;
@@ -66,7 +66,7 @@ const GetTokenAndLinkedPage = async ({
     if (pages.length > 1) {
       throw new AppError(
         "Escolha apenas 1 página. Refaça o processo e selecione apenas 1 página.",
-        403
+        400
       );
     }
 
@@ -103,7 +103,7 @@ const GetTokenAndLinkedPage = async ({
     });
   } catch (error) {
     console.log(error);
-    throw new AppError(error, 403);
+    throw new AppError(error, 400);
   }
 };
 

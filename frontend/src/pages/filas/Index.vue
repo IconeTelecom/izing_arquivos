@@ -1,7 +1,6 @@
 <template>
   <div>
-    <q-table
-      flat
+    <q-table flat
       bordered
       square
       hide-bottom
@@ -12,47 +11,36 @@
       :loading="loading"
       row-key="id"
       :pagination.sync="pagination"
-      :rows-per-page-options="[0]"
-    >
+      :rows-per-page-options="[0]">
       <template v-slot:top-right>
-        <q-btn
-          color="primary"
+        <q-btn color="primary"
           label="Adicionar"
-          @click="filaEdicao = {}; modalFila = true"
-        />
+          @click="filaEdicao = {}; modalFila = true" />
       </template>
       <template v-slot:body-cell-isActive="props">
         <q-td class="text-center">
-          <q-icon
-            size="24px"
+          <q-icon size="24px"
             :name="props.value ? 'mdi-check-circle-outline' : 'mdi-close-circle-outline'"
-            :color="props.value ? 'positive' : 'negative'"
-          />
+            :color="props.value ? 'positive' : 'negative'" />
         </q-td>
       </template>
       <template v-slot:body-cell-acoes="props">
         <q-td class="text-center">
-          <q-btn
-            flat
+          <q-btn flat
             round
             icon="edit"
-            @click="editarFila(props.row)"
-          />
-          <q-btn
-            flat
+            @click="editarFila(props.row)" />
+          <q-btn flat
             round
             icon="mdi-delete"
-            @click="deletarFila(props.row)"
-          />
+            @click="deletarFila(props.row)" />
         </q-td>
       </template>
     </q-table>
-    <ModalFila
-      :modalFila.sync="modalFila"
+    <ModalFila :modalFila.sync="modalFila"
       :filaEdicao.sync="filaEdicao"
       @modal-fila:criada="filaCriada"
-      @modal-fila:editada="filaEditada"
-    />
+      @modal-fila:editada="filaEditada" />
   </div>
 </template>
 

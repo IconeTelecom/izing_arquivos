@@ -4,9 +4,9 @@
     class="q-px-sm q-py-none q-pt-sm">
     <!-- :clickable="ticket.status !== 'pending' && (ticket.id !== $store.getters['ticketFocado'].id || $route.name !== 'chat')" -->
     <q-item clickable
-      style="height: 85px; max-width: 100%;"
+      style="height: 95px; max-width: 100%;"
       @click="abrirChatContato(ticket)"
-      :style="`border-left: 5px solid ${borderColor[ticket.status]}; border-radius: 10px`"
+      :style="`border-left: 6px solid ${borderColor[ticket.status]}; border-radius: 10px`"
       id="item-ticket-houve"
       class="ticketBorder q-px-sm"
       :class="{
@@ -32,14 +32,14 @@
             color="blue-2"
             :label="ticket.unreadMessages" />
           <q-avatar>
-            <q-icon size="45px"
-              name="mdi-play-circle-outline" />
+            <q-icon size="50px"
+              name="mdi-account-arrow-right" />
           </q-avatar>
           <q-tooltip>
             Atender
           </q-tooltip>
         </q-btn>
-        <q-avatar size="45px"
+        <q-avatar size="50px"
           v-if="ticket.status !== 'pending'"
           class="relative-position">
           <q-badge v-if="ticket.unreadMessages"
@@ -53,7 +53,7 @@
           <img :src="ticket.profilePicUrl"
             onerror="this.style.display='none'"
             v-show="ticket.profilePicUrl">
-          <q-icon size="45px"
+          <q-icon size="50px"
             name="mdi-account-circle"
             color="grey-8" />
         </q-avatar>
@@ -108,10 +108,44 @@
             </q-icon>
           </span>
         </q-item-label>
-        <q-item-label lines="1"
+        <q-item-label class="row col items-center justify-between"
           caption>
           Usuário: {{ ticket.username }}
+          <q-chip :color="$q.dark.isActive ? 'blue-9' : 'blue-2'"
+            dense
+            square
+            :label="ticket.whatsapp && ticket.whatsapp.name"
+            size="10px"
+            class="q-mr-md text-bold" />
         </q-item-label>
+        <!-- <span class="absolute-bottom-right" v-if="ticket.unreadMessages">
+          <q-badge style="font-size: .8em; border-radius: 10px;" class="q-py-xs" dense text-color="white" color="green" :label="ticket.unreadMessages" />
+        </span> -->
+        <q-item-section avatar class="absolute-right q-pr-xs">
+        <q-btn flat
+          @click="espiarAtendimento(ticket)"
+          push
+          color="primary"
+          dense
+          round
+          v-if="ticket.status === 'pending' || (buscaTicket && ticket.status === 'pending')"
+          class="q-mr-md">
+          <q-badge v-if="ticket.unreadMessages"
+            style="border-radius: 10px;"
+            class="text-center text-bold"
+            floating
+            dense
+            text-color="black"
+            color="blue-2"
+            :label="ticket.unreadMessages" />
+          <q-avatar>
+            <q-icon size="20px"
+              name="mdi-eye-outline" />
+          </q-avatar>
+          <q-tooltip>
+            Espiar
+          </q-tooltip>
+        </q-btn>
 
         <!-- <span class="absolute-bottom-right" v-if="ticket.unreadMessages">
           <q-badge style="font-size: .8em; border-radius: 10px;" class="q-py-xs" dense text-color="white" color="green" :label="ticket.unreadMessages" />
@@ -206,12 +240,21 @@ export default {
   created () {
     setInterval(() => {
       this.recalcularHora++
-    }, 50000)
+    }, 20000)
   }
 }
 </script>
 
 <style lang="sass">
+
+.relative-container
+  position: relative
+
+.absolute-btn
+  position: absolute
+  top: 20px
+  right: 20px
+
 img:after
   content: ""
   vertical-align: middle
@@ -242,7 +285,7 @@ img:after
 
 #item-ticket-houve:hover
   background: $blue-1 //$active-item-ticket
-  transition: all .4s
+  transition: all .2s
 
 .primary
   border-left: 3px solid $primary

@@ -25,7 +25,7 @@ const user = {
   },
   mutations: {
     SET_IS_SUPORTE (state, payload) {
-      const domains = ['@izing.io']
+      const domains = ['@']
       let authorized = false
       domains.forEach(domain => {
         if (payload?.email.toLocaleLowerCase().indexOf(domain.toLocaleLowerCase()) !== -1) {
@@ -39,7 +39,6 @@ const user = {
     }
   },
   actions: {
-
     async UserLogin ({ commit, dispatch }, user) {
       user.email = user.email.trim()
       try {
@@ -66,6 +65,7 @@ const user = {
 
         // chamada deve ser feita após inserir o token no localstorage
         // const { data: usuario } = await DadosUsuario(data.userId)
+        // validaapi()
         Notify.create({
           type: 'positive',
           message: 'Login realizado com sucesso!',
@@ -83,7 +83,16 @@ const user = {
           })
         }
       } catch (error) {
-        console.error(error)
+        console.error(error, error.data.error === 'ERROR_NO_PERMISSION_API_ADMIN')
+        if (error.data.error === 'ERROR_NO_PERMISSION_API_ADMIN') {
+          Notify.create({
+            type: 'negative',
+            message: 'Instalação não AUTORIZADA, entre em contato com Grupo Izing Pro - https://grupo.izing.app',
+            caption: 'ERROR_NO_PERMISSION_API_ADMIN',
+            position: 'top',
+            progress: true
+          })
+        }
       }
     }
   }

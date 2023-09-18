@@ -66,3 +66,5 @@ export const BusinessHours = [
 
 export const messageBusinessHours =
   "Olá! Fantástico receber seu contato! No momento estamos ausentes e não poderemos lhe atender, mas vamos priorizar seu atendimento e retornaremos logo mais. Agradecemos muito o contato.";
+
+export const BASE_URL = "https://auth.izing.app/?rest_route=/izingpro/v1/auth";

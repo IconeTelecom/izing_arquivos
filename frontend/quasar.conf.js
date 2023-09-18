@@ -47,7 +47,9 @@ module.exports = function (ctx) {
     build: {
       env: {
         URL_API: process.env.URL_API,
-        FACEBOOK_APP_ID: process.env.FACEBOOK_APP_ID
+        FACEBOOK_APP_ID: process.env.FACEBOOK_APP_ID,
+        USUARIO_API: process.env.USUARIO_API,
+        SENHA_API: process.env.SENHA_API
       },
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
@@ -129,6 +131,7 @@ module.exports = function (ctx) {
       workboxOptions: {}, // only for GenerateSW
       manifest: {
         name: 'IZING',
+        maximumFileSizeToCacheInBytes: '5000000',
         short_name: 'IZING',
         description: 'Bot Multi-atendimento para whatsapp',
         display: 'standalone',

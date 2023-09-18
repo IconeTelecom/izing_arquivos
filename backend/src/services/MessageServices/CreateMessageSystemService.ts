@@ -10,6 +10,7 @@ import Ticket from "../../models/Ticket";
 import Message from "../../models/Message";
 import socketEmit from "../../helpers/socketEmit";
 import Queue from "../../libs/Queue";
+import { pupa } from "../../utils/pupa";
 
 interface MessageData {
   ticketId: number;
@@ -137,6 +138,12 @@ const CreateMessageSystemService = async ({
   };
 
   try {
+    // Alter template message
+    messageData.body = pupa(msg.body || "", {
+      // greeting: será considerado conforme data/hora da mensagem internamente na função pupa
+      protocol: ticket.protocol,
+      name: ticket.contact.name
+    });
     if (sendType === "API" && msg.mediaUrl) {
       medias = [];
       const mediaData = await downloadMedia(msg);

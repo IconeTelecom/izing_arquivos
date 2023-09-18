@@ -3,7 +3,7 @@
     <transition-group appear
       enter-active-class="animated fadeIn"
       leave-active-class="animated fadeOut">
-      <template v-for="(mensagem, index) in mensagens">
+      <template v-for="(mensagem, index) in       mensagens      ">
         <hr v-if="isLineDate"
           :key="'hr-' + index"
           class="hr-text q-mt-lg q-mb-md"
@@ -29,9 +29,9 @@
             <q-checkbox v-if="ativarMultiEncaminhamento"
               :key="`cheked-chat-message-${mensagem.id}`"
               :class="{
-                'absolute-top-right checkbox-encaminhar-right': !mensagem.fromMe,
-                'absolute-top-left checkbox-encaminhar-left': mensagem.fromMe
-              }"
+                  'absolute-top-right checkbox-encaminhar-right': !mensagem.fromMe,
+                  'absolute-top-left checkbox-encaminhar-left': mensagem.fromMe
+                }"
               :ref="`box-chat-message-${mensagem.id}`"
               @click.native="verificarEncaminharMensagem(mensagem)"
               :value="false" />
@@ -40,9 +40,9 @@
               name="mdi-calendar"
               size="18px"
               :class="{
-                'text-primary': mensagem.scheduleDate && mensagem.status === 'pending',
-                'text-positive': !['pending', 'canceled'].includes(mensagem.status)
-              }"
+                  'text-primary': mensagem.scheduleDate && mensagem.status === 'pending',
+                  'text-positive': !['pending', 'canceled'].includes(mensagem.status)
+                }"
               v-if="mensagem.scheduleDate">
               <q-tooltip content-class="bg-secondary text-grey-8">
                 <div class="row col">
@@ -83,10 +83,10 @@
               <MensagemRespondida style="max-width: 240px; max-height: 150px"
                 class="row justify-center"
                 @mensagem-respondida:focar-mensagem="f
-                carMensagem"
+                                                                                                                carMensagem"
                 :mensagem="mensagem.quotedMsg" />
             </div>
-            <q-btn v-if="!mensagem.isDeleted && isShowOptions"
+            <q-btn v-if=" !mensagem.isDeleted && isShowOptions "
               class="absolute-top-right mostar-btn-opcoes-chat"
               dense
               flat
@@ -98,27 +98,27 @@
                 anchor="bottom left"
                 self="top left">
                 <q-list style="min-width: 100px">
-                  <q-item :disable="!['whatsapp', 'telegram'].includes(ticketFocado.channel)"
+                  <q-item :disable=" !['whatsapp', 'telegram'].includes(ticketFocado.channel) "
                     clickable
-                    @click="citarMensagem(mensagem)">
+                    @click=" citarMensagem(mensagem) ">
                     <q-item-section>Responder</q-item-section>
-                    <q-tooltip v-if="!['whatsapp', 'telegram'].includes(ticketFocado.channel)">
+                    <q-tooltip v-if=" !['whatsapp', 'telegram'].includes(ticketFocado.channel) ">
                       Disponível apenas para WhatsApp e Telegram
                     </q-tooltip>
                   </q-item>
                   <q-item clickable
-                    @click="encaminharMensagem(mensagem)">
+                    @click=" encaminharMensagem(mensagem) ">
                     <q-item-section>Encaminhar</q-item-section>
                   </q-item>
                   <q-item clickable
-                    @click="marcarMensagensParaEncaminhar(mensagem)">
+                    @click=" marcarMensagensParaEncaminhar(mensagem) ">
                     <q-item-section>Marcar (encaminhar várias)</q-item-section>
                   </q-item>
                   <q-separator />
-                  <q-item @click="deletarMensagem(mensagem)"
+                  <q-item @click=" deletarMensagem(mensagem) "
                     clickable
-                    v-if="mensagem.fromMe"
-                    :disable="isDesactivatDelete(mensagem) || ticketFocado.channel === 'messenger'">
+                    v-if=" mensagem.fromMe "
+                    :disable=" isDesactivatDelete(mensagem) || ticketFocado.channel === 'messenger' ">
                     <q-item-section>
                       <q-item-label>Deletar</q-item-label>
                       <!-- <q-item-label caption>
@@ -134,50 +134,50 @@
                 </q-list>
               </q-menu>
             </q-btn>
-            <q-icon v-if="mensagem.fromMe"
+            <q-icon v-if=" mensagem.fromMe "
               class="absolute-bottom-right q-pr-xs q-pb-xs"
-              :name="ackIcons[mensagem.ack]"
+              :name=" ackIcons[mensagem.ack] "
               size="1.2em"
-              :color="mensagem.ack >= 3 ? 'blue-12' : ''" />
-            <template v-if="mensagem.mediaType === 'audio'">
+              :color=" mensagem.ack >= 3 ? 'blue-12' : '' " />
+            <template v-if=" mensagem.mediaType === 'audio' ">
               <div style="width: 330px; heigth: 300px">
                 <audio class="q-mt-md full-width"
                   controls
                   ref="audioMessage"
                   controlsList="nodownload noplaybackrate volume novolume">
-                  <source :src="mensagem.mediaUrl"
+                  <source :src=" mensagem.mediaUrl "
                     type="audio/ogg" />
                 </audio>
               </div>
             </template>
-            <template v-if="mensagem.mediaType === 'vcard'">
+            <template v-if=" mensagem.mediaType === 'vcard' ">
               <q-btn type="a"
-                :color="$q.dark.isActive ? '' : 'black'"
+                :color=" $q.dark.isActive ? '' : 'black' "
                 outline
                 dense
                 class="q-px-sm text-center btn-rounded "
                 download="vCard"
-                :href="`data:text/x-vcard;charset=utf-8;base64,${returnCardContato(mensagem.body)}`">
+                :href=" `data:text/x-vcard;charset=utf-8;base64,${returnCardContato(mensagem.body)}` ">
                 Download Contato
               </q-btn>
             </template>
-            <template v-if="mensagem.mediaType === 'image'">
+            <template v-if=" mensagem.mediaType === 'image' ">
               <!-- @click="buscarImageCors(mensagem.mediaUrl)" -->
-              <q-img @click="urlMedia = mensagem.mediaUrl; abrirModalImagem = true"
-                :src="mensagem.mediaUrl"
+              <q-img @click=" urlMedia = mensagem.mediaUrl; abrirModalImagem = true "
+                :src=" mensagem.mediaUrl "
                 spinner-color="primary"
                 height="150px"
                 width="330px"
                 class="q-mt-md"
                 style="cursor: pointer;" />
               <VueEasyLightbox moveDisabled
-                :visible="abrirModalImagem"
-                :imgs="urlMedia"
-                :index="mensagem.ticketId || 1"
-                @hide="abrirModalImagem = false" />
+                :visible=" abrirModalImagem "
+                :imgs=" urlMedia "
+                :index=" mensagem.ticketId || 1 "
+                @hide=" abrirModalImagem = false " />
             </template>
-            <template v-if="mensagem.mediaType === 'video'">
-              <video :src="mensagem.mediaUrl"
+            <template v-if=" mensagem.mediaType === 'video' ">
+              <video :src=" mensagem.mediaUrl "
                 controls
                 class="q-mt-md"
                 style="objectFit: cover;
@@ -187,11 +187,12 @@
                   borderTopRightRadius: 8px;
                   borderBottomLeftRadius: 8px;
                   borderBottomRightRadius: 8px;
-                " />
+                " >
+                </video>
             </template>
-            <template v-if="['application', 'file', 'document'].includes(mensagem.mediaType)">
+            <template v-if=" !['audio', 'vcard', 'image', 'video'].includes(mensagem.mediaType) && mensagem.mediaUrl ">
               <div class="text-center full-width hide-scrollbar no-scroll">
-                <iframe v-if="isPDF(mensagem.mediaUrl)"
+                <iframe v-if=" isPDF(mensagem.mediaUrl) "
                   frameBorder="0"
                   scrolling="no"
                   style="
@@ -201,22 +202,22 @@
                     -ms-overflow-y: hidden;
                   "
                   class="no-scroll hide-scrollbar"
-                  :src="mensagem.mediaUrl"
+                  :src=" mensagem.mediaUrl "
                   id="frame-pdf">
                   Faça download do PDF
                   <!-- alt : <a href="mensagem.mediaUrl"></a> -->
                 </iframe>
                 <q-btn type="a"
-                  :color="$q.dark.isActive ? '' : 'grey-3'"
+                  :color=" $q.dark.isActive ? '' : 'grey-3' "
                   no-wrap
                   no-caps
                   stack
                   dense
                   class="q-mt-sm text-center text-black btn-rounded  text-grey-9 ellipsis"
                   download
-                  :target="isPDF(mensagem.mediaUrl) ? '_blank' : ''"
-                  :href="mensagem.mediaUrl">
-                  <q-tooltip v-if="mensagem.mediaUrl"
+                  :target=" isPDF(mensagem.mediaUrl) ? '_blank' : '' "
+                  :href=" mensagem.mediaUrl ">
+                  <q-tooltip v-if=" mensagem.mediaUrl "
                     content-class="text-bold">
                     Baixar: {{ mensagem.mediaName }}
                     {{ mensagem.body }}
@@ -243,10 +244,10 @@
               </q-btn> -->
             </template>
             <div v-linkified
-              v-if="!['vcard', 'application', 'audio'].includes(mensagem.mediaType)"
-              :class="{ 'q-mt-sm': mensagem.mediaType !== 'chat' }"
+              v-if=" !['vcard', 'application', 'audio'].includes(mensagem.mediaType) "
+              :class=" { 'q-mt-sm': mensagem.mediaType !== 'chat' } "
               class="q-message-container row items-end no-wrap">
-              <div v-html="farmatarMensagemWhatsapp(mensagem.body)">
+              <div v-html=" farmatarMensagemWhatsapp(mensagem.body) ">
               </div>
             </div>
           </div>

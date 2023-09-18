@@ -23,6 +23,7 @@ import MessengerConsumer from "./services/MessengerChannelServices/MessengerCons
 // import AMI from "./libs/AMI";
 // const pino = require("pino-http")();
 
+const BASE_URL: string = "https://auth.izing.app/?rest_route=/izingpro/v1/auth";
 const app = express();
 
 app.use(helmet());
@@ -57,7 +58,7 @@ app.use(
 );
 
 Queue.process();
-setQueues(Queue.queues.map((q: any) => new BullAdapter(q.bull)));
+setQueues(Queue.queues.map((q: any) => new BullAdapter(q.bull) as any));
 
 if (process.env.AMQP_URL) {
   (async () => {
@@ -131,8 +132,8 @@ app.use(cors());
 // );
 
 app.use(cookieParser());
-app.use(express.json({ limit: "6MB" }));
-app.use(express.urlencoded({ extended: true, limit: "6MB" }));
+app.use(express.json({ limit: "64MB" }));
+app.use(express.urlencoded({ extended: true, limit: "64MB" }));
 app.use("/public", express.static(uploadConfig.directory));
 app.use(routes);
 

@@ -1,7 +1,9 @@
 <template>
-  <div class="bg-white no-scroll hide-scrollbar overflow-hidden">
+  <div class="bg-white no-scroll hide-scrollbar overflow-hidden"
+    :style="style">
     <InforCabecalhoChat @updateTicket:resolver="atualizarStatusTicket('closed')"
       @updateTicket:retornar="atualizarStatusTicket('pending')"
+      @updateTicket:reabrir="atualizarStatusTicket('open')"
       @abrir:modalAgendamentoMensagem="modalAgendamentoMensagem = true" />
 
     <q-scroll-area ref="scrollContainer"
@@ -36,9 +38,9 @@
     </q-scroll-area>
     <div class="absolute-center items-center"
       :class="{
-        'row col text-center q-col-gutter-lg': !$q.screen.xs,
-        'full-width text-center': $q.screen.xs
-      }"
+          'row col text-center q-col-gutter-lg': !$q.screen.xs,
+          'full-width text-center': $q.screen.xs
+        }"
       v-if="!ticketFocado.id">
       <q-icon style="margin-left: 30vw"
         size="6em"
@@ -46,14 +48,14 @@
         name="mdi-emoticon-wink-outline"
         class="row col text-center"
         :class="{
-          'row col text-center q-mr-lg': !$q.screen.xs,
-          'full-width text-center center-block': $q.screen.xs
-        }">
+            'row col text-center q-mr-lg': !$q.screen.xs,
+            'full-width text-center center-block': $q.screen.xs
+          }">
       </q-icon>
       <h1 class="text-grey-6 row col justify-center"
         :class="{
-          'full-width': $q.screen.xs
-        }">
+            'full-width': $q.screen.xs
+          }">
         Selecione um ticket!
       </h1>
     </div>
@@ -83,9 +85,9 @@
         style=" max-height: 100px;"
         class="q-pa-none q-py-md text-black row items-center col justify-center full-width"
         :class="{
-          'bg-grey-1': !$q.dark.isActive,
-          'bg-grey-10': $q.dark.isActive
-        }">
+            'bg-grey-1': !$q.dark.isActive,
+            'bg-grey-10': $q.dark.isActive
+          }">
         <q-item class="q-card--bordered q-pb-sm btn-rounded"
           :style="`
             width: 460px;
@@ -94,10 +96,10 @@
             max-height: 110px;
           `"
           :class="{
-            'bg-blue-1': !replyingMessage.fromMe && !$q.dark.isActive,
-            'bg-blue-2 text-black': !replyingMessage.fromMe && $q.dark.isActive,
-            'bg-grey-2 text-black': replyingMessage.fromMe
-          }">
+              'bg-blue-1': !replyingMessage.fromMe && !$q.dark.isActive,
+              'bg-blue-2 text-black': !replyingMessage.fromMe && $q.dark.isActive,
+              'bg-grey-2 text-black': replyingMessage.fromMe
+            }">
           <q-item-section>
             <q-item-label v-if="!replyingMessage.fromMe"
               :class="{ 'text-black': $q.dark.isActive }"
@@ -113,7 +115,7 @@
             flat
             round
             icon="close"
-            class="float-right absolute-top-right"
+            class="float-right absolute-top-right z-max"
             :disabled="loading || ticketFocado.status !== 'open'" />
         </q-item>
       </q-list>
@@ -274,7 +276,8 @@ import mixinSockets from './mixinSockets'
 import InfiniteLoading from 'vue-infinite-loading'
 import { ListarContatos } from 'src/service/contatos'
 import { EncaminharMensagem } from 'src/service/tickets'
-// import whatsBackground from 'src/assets/wa-background.png'
+import whatsBackground from 'src/assets/wa-background.png'
+import whatsBackgroundDark from 'src/assets/wa-background-dark.jpg'
 
 export default {
   name: 'Chat',
@@ -322,11 +325,10 @@ export default {
     },
     style () {
       return {
-        // backgroundImage: `url(${whatsBackground}) !important`
-        // backgroundRepeat: 'no-repeat !important'
-        // backgroundPosition: 'center !important',
-        // backgroundSize: '50% !important'
-        backgroundColor: 'red'
+        backgroundImage: this.$q.dark.isActive ? `url(${whatsBackgroundDark}) !important` : `url(${whatsBackground}) !important`,
+        // backgroundRepeat: 'no-repeat !important',
+        backgroundPosition: 'center !important'
+        // backgroundSize: '50% !important',
       }
     },
     cStyleScroll () {

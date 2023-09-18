@@ -1,5 +1,5 @@
 #!/bin/bash
-echo  "Updating izing, please wait."
+echo  "Updating DigitalSac, please wait."
 cd  ~
 cd izing.io
 git checkout master
